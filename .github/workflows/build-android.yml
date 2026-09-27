@@ -35,6 +35,18 @@ jobs:
       - name: Sync web assets
         run: npx cap sync android
 
+      - name: Inject AdMob App ID
+        run: |
+          STRINGS_FILE=android/app/src/main/res/values/strings.xml
+          if [ -f "$STRINGS_FILE" ]; then
+            sed -i 's|</resources>|    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>\n</resources>|' "$STRINGS_FILE"
+            echo "AdMob App ID injected:"
+            grep admob_app_id "$STRINGS_FILE"
+          else
+            echo "strings.xml not found"
+            exit 1
+          fi
+
       - name: Build Debug APK
         run: |
           cd android
