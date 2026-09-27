@@ -1,9 +1,9 @@
 {
-  "adMobAppId": "",
+  "adMobAppId": "ca-app-pub-7845440733791330~7933426293",
   "adUnits": {
     "banner": "",
     "interstitial": "",
-    "reward": "ca-app-pub-7845440733791330/4768737792"
+    "reward": "ca-app-pub-7845440733791330/9325389855"
   },
   "testing": {
     "banner": true,
