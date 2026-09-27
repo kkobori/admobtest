@@ -16,6 +16,7 @@
 ```
 npm install
 npx cap add android
+node scripts/patch-admob-manifest.js
 npx cap sync android
 npx cap open android
 ```
@@ -27,6 +28,7 @@ Android Studio が開いたら「Build」→「Generate Signed Bundle / APK」�
 ```
 npm install
 npx cap add android
+node scripts/patch-admob-manifest.js
 npx cap sync android
 cd android
 chmod +x gradlew
@@ -34,11 +36,16 @@ chmod +x gradlew
 ./gradlew bundleRelease     # AAB (リリース・未署名)
 ```
 
-## 重要: AdMob アプリIDの設定
+## 重要: AdMob アプリIDの設定について
 
-AdMob を使う場合、android/app/src/main/res/values/strings.xml を開いて
-次の1行を追記してください（初回の npx cap add android 後）。
+`npx cap add android` は android/ フォルダを毎回まっさらに作り直すため、
+AndroidManifest.xml や strings.xml を直接手で編集しても次のビルドで消えてしまいます。
+そのため `scripts/patch-admob-manifest.js` が admob-config.json の内容を毎回自動で
+書き込む仕組みになっています（GitHub Actionsでも自動実行されます）。
 
-  <string name="admob_app_id">ca-app-pub-XXXXXXXXXXXXXXXX~YYYYYYYYYY</string>
-
-その後 npx cap sync android を再実行してください。
+- AdMobアプリIDは、生成前の設定画面の「AdMob アプリID」欄に入力してからZIPを
+  作り直してください（`admob-config.json` に保存されます）。
+- アプリIDが未入力のままだと、Google公式のサンプル用アプリID（テスト広告専用）が
+  自動的に書き込まれます。この場合、アプリは正常動作しますが実際の広告（本番ID）は出ません。
+- GitHub Actionsのビルドログで「Patch AdMob AndroidManifest.xml / strings.xml」の
+  ステップに `[patch-admob] 完了: appId=...` と表示されていれば書き込み成功です。
