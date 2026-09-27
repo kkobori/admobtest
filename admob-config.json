@@ -1,0 +1,17 @@
+{
+  "adMobAppId": "",
+  "adUnits": {
+    "banner": "",
+    "interstitial": "",
+    "reward": "ca-app-pub-7845440733791330/4768737792"
+  },
+  "testing": {
+    "banner": true,
+    "interstitial": true,
+    "reward": true
+  },
+  "testDevices": [],
+  "cooldownMinutes": 1,
+  "adsenseClientId": "ca-pub-7845440733791330",
+  "adsenseTesting": true
+}
