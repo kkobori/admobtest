@@ -1,0 +1,8 @@
+{
+  "appId": "com.example.admobtest",
+  "appName": "admobtest",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
