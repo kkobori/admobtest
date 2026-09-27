@@ -38,12 +38,25 @@ jobs:
       - name: Inject AdMob App ID
         run: |
           STRINGS_FILE=android/app/src/main/res/values/strings.xml
+          MANIFEST_FILE=android/app/src/main/AndroidManifest.xml
           if [ -f "$STRINGS_FILE" ]; then
             sed -i 's|</resources>|    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>\n</resources>|' "$STRINGS_FILE"
-            echo "AdMob App ID injected:"
+            echo "AdMob App ID injected to strings.xml:"
             grep admob_app_id "$STRINGS_FILE"
           else
             echo "strings.xml not found"
+            exit 1
+          fi
+          if [ -f "$MANIFEST_FILE" ]; then
+            if ! grep -q "com.google.android.gms.ads.APPLICATION_ID" "$MANIFEST_FILE"; then
+              sed -i 's|<application|<application>\n        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="@string/admob_app_id" />|' "$MANIFEST_FILE"
+              echo "AdMob meta-data injected to AndroidManifest.xml:"
+              grep -A1 "APPLICATION_ID" "$MANIFEST_FILE"
+            else
+              echo "meta-data already present"
+            fi
+          else
+            echo "AndroidManifest.xml not found"
             exit 1
           fi
 
