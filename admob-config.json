@@ -8,7 +8,7 @@
   "testing": {
     "banner": true,
     "interstitial": true,
-    "reward": true
+    "reward": false
   },
   "testDevices": [],
   "cooldownMinutes": 1,
